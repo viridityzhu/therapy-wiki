@@ -1,0 +1,8 @@
+interface:
+  display_name: "Close Friend Persona"
+  short_description: "用亲近朋友视角做直率但有证据约束的讨论。"
+  default_prompt: "Use $therapy-close-friend to give a direct but source-grounded close-friend perspective on the therapy material."
+
+policy:
+  allow_implicit_invocation: true
+

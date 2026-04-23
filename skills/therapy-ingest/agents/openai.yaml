@@ -1,0 +1,7 @@
+interface:
+  display_name: "Therapy Ingest"
+  short_description: "导入咨询音频并重建本地 therapy wiki。"
+  default_prompt: "Use $therapy-ingest to ingest a therapy recording or other personal audio file, inspect the generated artifacts, and summarize any follow-up review work."
+
+policy:
+  allow_implicit_invocation: true

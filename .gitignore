@@ -1,0 +1,31 @@
+# Private therapy data and generated knowledge artifacts
+raw/
+artifacts/
+wiki/
+outputs/
+*.m4a
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+
+# Local secrets and machine-specific config
+.env
+.env.*
+
+# Python / tooling
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+.venv/
+.venv-*/
+.venv[0-9]*/
+.cache/
+*.log
+
+# macOS
+.DS_Store
+**/.DS_Store

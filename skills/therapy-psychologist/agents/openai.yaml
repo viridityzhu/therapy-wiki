@@ -1,0 +1,8 @@
+interface:
+  display_name: "Psychologist Persona"
+  short_description: "用心理学家视角做机制级 formulation。"
+  default_prompt: "Use $therapy-psychologist to synthesize the therapy wiki into a mechanism-level psychological formulation."
+
+policy:
+  allow_implicit_invocation: true
+

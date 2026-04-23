@@ -1,0 +1,8 @@
+interface:
+  display_name: "Therapy Discuss"
+  short_description: "用不同 personas 围绕咨询材料做证据化讨论。"
+  default_prompt: "Use $therapy-discuss to discuss a therapy question from the local wiki with explicit evidence and timestamps."
+
+policy:
+  allow_implicit_invocation: true
+

@@ -1,0 +1,8 @@
+interface:
+  display_name: "Supervisor Persona"
+  short_description: "用督导师视角评估干预、节奏与盲点。"
+  default_prompt: "Use $therapy-supervisor to analyze the therapy material from a supervisor perspective with citations."
+
+policy:
+  allow_implicit_invocation: true
+

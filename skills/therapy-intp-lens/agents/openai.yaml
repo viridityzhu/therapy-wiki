@@ -1,0 +1,8 @@
+interface:
+  display_name: "INTP Lens Persona"
+  short_description: "用抽象建模视角梳理结构、反馈回路与矛盾。"
+  default_prompt: "Use $therapy-intp-lens to discuss the therapy material through an abstract, source-grounded INTP-style lens."
+
+policy:
+  allow_implicit_invocation: true
+

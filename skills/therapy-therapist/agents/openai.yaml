@@ -1,0 +1,8 @@
+interface:
+  display_name: "Therapist Persona"
+  short_description: "用治疗师视角贴近会谈过程地复盘与讨论。"
+  default_prompt: "Use $therapy-therapist to discuss the material as a source-grounded therapist persona."
+
+policy:
+  allow_implicit_invocation: true
+

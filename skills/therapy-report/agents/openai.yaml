@@ -1,0 +1,7 @@
+interface:
+  display_name: "Therapy Report"
+  short_description: "生成咨询复盘报告并回写长期 formulation。"
+  default_prompt: "Use $therapy-report to produce a source-grounded Chinese therapy review or longitudinal psychology report from the local therapy wiki."
+
+policy:
+  allow_implicit_invocation: true

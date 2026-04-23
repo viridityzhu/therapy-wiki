@@ -1,0 +1,40 @@
+#!/bin/sh
+
+ROOT="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+
+if [ -f "$ROOT/.env" ]; then
+  set -a
+  . "$ROOT/.env"
+  set +a
+fi
+
+if [ -f "$ROOT/.env.local" ]; then
+  set -a
+  . "$ROOT/.env.local"
+  set +a
+fi
+
+if [ -x "$ROOT/.venv310/bin/python" ]; then
+  PYTHON="$ROOT/.venv310/bin/python"
+elif [ -x "$ROOT/.venv/bin/python" ]; then
+  PYTHON="$ROOT/.venv/bin/python"
+else
+  PYTHON="python3"
+fi
+
+if [ -n "$PYTHONPATH" ]; then
+  export PYTHONPATH="$ROOT/src:$PYTHONPATH"
+else
+  export PYTHONPATH="$ROOT/src"
+fi
+
+if [ -z "$THERAPY_MLX_PYTHON" ] && [ -x "$ROOT/.venv-mlx/bin/python" ]; then
+  export THERAPY_MLX_PYTHON="$ROOT/.venv-mlx/bin/python"
+fi
+
+if [ -z "$MPLCONFIGDIR" ]; then
+  export MPLCONFIGDIR="$ROOT/.cache/matplotlib"
+fi
+mkdir -p "$MPLCONFIGDIR"
+
+exec "$PYTHON" -m therapy_wiki.cli "$@"

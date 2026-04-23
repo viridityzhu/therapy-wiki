@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "therapy-atlas"
+version = "0.1.0"
+description = "Local-first agent workbench for turning therapy recordings, voice notes, chats, journals, and other personal materials into a persistent psychology wiki with Codex or Claude Code."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Codex" }
+]
+dependencies = []
+
+[project.scripts]
+therapy = "therapy_wiki.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
