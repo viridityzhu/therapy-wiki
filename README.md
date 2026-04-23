@@ -56,6 +56,35 @@ Everything is plain Markdown and JSON — easy for both humans and AI to read, e
 
 All five steps are triggered from a single CLI (`./therapy`) plus a handful of Codex skills.
 
+## 🔬 Under the hood: the ingest pipeline
+
+Step 1 (`Ingest`) is a deterministic, local-first pipeline built on open-source models. No cloud STT, no cloud LLM, no per-call API spend.
+
+```text
+audio
+  ├─▶ prepared.wav                             (ffmpeg: 16 kHz mono wav)
+  ├─▶ transcript.raw.json                      (STT: MLX Whisper*)
+  ├─▶ diarization.json                         (diarization: pyannote.audio)
+  ├─▶ speaker_map.json + transcript.turns.json (deterministic alignment + labeling)
+  ├─▶ summary.json + review.md                 (deterministic theme / pattern pass)
+  └─▶ wiki/sessions/<id>.md                    (deterministic wiki compiler)
+```
+
+Stages and the open-source models they use:
+
+| Stage | Artifact | Backend | License |
+| --- | --- | --- | --- |
+| Audio prep | `prepared.wav` | [`ffmpeg`](https://ffmpeg.org/) | LGPL |
+| Speech-to-text | `transcript.raw.json` | [`mlx-whisper`](https://github.com/ml-explore/mlx-examples/tree/main/whisper) running `whisper-large-v3-turbo` (fast) or `whisper-large-v3` (accurate) | MIT (OpenAI Whisper weights) |
+| Speaker diarization | `diarization.json` | [`pyannote.audio`](https://github.com/pyannote/pyannote-audio) with `speaker-diarization-community-1` (fallback `speaker-diarization-3.1`) | MIT code, gated weights on Hugging Face |
+| Speaker alignment + labeling | `speaker_map.json`, `transcript.turns.json` | pure-Python heuristics — see [src/therapy_wiki/speaker_map.py](src/therapy_wiki/speaker_map.py) | — |
+| Session summary + review notes | `summary.json`, `review.md` | pure-Python theme / pattern extractor — see [src/therapy_wiki/summarize.py](src/therapy_wiki/summarize.py) | — |
+| Wiki compilation | `wiki/sessions/<id>.md`, `wiki/index.md`, `wiki/log.md` | [src/therapy_wiki/wiki.py](src/therapy_wiki/wiki.py) | — |
+
+\*On macOS Intel / Linux, `mlx-whisper` isn't available; see [schema/setup.md](schema/setup.md) for STT fallbacks.
+
+The only place where a frontier LLM does heavy lifting is **Report** and **Discuss**, and even there it only ever reads the already-compiled wiki — not the raw audio. Everything above is local, reproducible, and runs offline once model weights are cached.
+
 ## 🎭 Personas
 
 Different lenses on the same material. Each persona is backed by its own method card and skill, so the reading actually changes — structure, questions, attention, and output frame all shift.
