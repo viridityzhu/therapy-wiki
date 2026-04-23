@@ -113,6 +113,49 @@ For fresh-machine STT + diarization setup (mlx-whisper, pyannote, etc.) see [`sc
 
 ## 🛠️ Typical usage
 
+### For humans
+
+Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code inside the repo and just tell the agent three things in plain language: **scope** (which material) × **persona** (which lens) × **task** (what to do). The agent picks the right skill and CLI call itself.
+
+**Scope options**
+
+- `latest` — the most recent session
+- `session <id>` — one specific session (e.g. `session 2025-04-20`)
+- `all` — every session currently in the wiki
+
+**Persona options**
+
+- `therapist` — process, affect, defense, relational stance, next-step exploration
+- `supervisor` — intervention choices, pacing, alliance, missed opportunities
+- `psychologist` — formulation, mechanism, competing explanations, longitudinal patterns
+- `intp-lens` — structure, loops, contradictions, hidden rules
+- `close-friend` — direct reality check (kept **separate** from formal formulation)
+
+**Task options**
+
+- **Ingest** — pull new audio into `raw/` + `artifacts/` + `wiki/`
+- **Refresh** — after you've manually edited `transcript.edited.md` or `speaker_map.json`, recompile that session
+- **Single-session review** — a structured pass on one session
+- **Longitudinal report** — synthesis across sessions
+- **Discuss a specific question** — ask through a chosen persona and get a structured answer
+- **File back** — persist a durable conclusion from a discussion into that persona's wiki notes
+- **Lint** — structural health check over the wiki
+
+**Example chat prompts**
+
+> "Ingest `~/voice/2025-04-20.m4a`, then write a single-session review through the `therapist` persona."
+
+> "Looking at `all` sessions through the `psychologist` lens, produce a longitudinal report."
+
+> "Through the `close-friend` persona, discuss the `latest` session: what am I still refusing to admit? File back anything worth keeping."
+
+> "I just finished editing `transcript.edited.md` for session `2025-04-20`. Refresh that session."
+
+### For the agent (CLI reference)
+
+<details>
+<summary>Click to expand: equivalent <code>./therapy</code> commands</summary>
+
 **After a new session**
 
 ```bash
@@ -140,6 +183,8 @@ For fresh-machine STT + diarization setup (mlx-whisper, pyannote, etc.) see [`sc
 ```bash
 ./therapy ingest --refresh <session-id>
 ```
+
+</details>
 
 ## 📦 What's in the repo
 
