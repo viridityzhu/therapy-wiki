@@ -15,7 +15,9 @@ Therapy Wiki is a repository you open inside an agent runtime — the repo itsel
 > The job is to keep compiling a better wiki over time,
 > so you stop re-deriving insight from scratch on every new conversation.
 
-## ✨ Why it exists
+## ✨ Why & who
+
+### Why it exists
 
 Personal therapy material tends to rot in three ways:
 
@@ -25,7 +27,7 @@ Personal therapy material tends to rot in three ways:
 
 Therapy Wiki fixes those three with a deliberately small workflow: a file tree plus a set of Codex / Claude AI agent skills. There's no hosted service, no web UI, no vector database, no backend to stand up (all of which have felt obsolete since the AI-agent era kicked in these past few months! 😱). If you already use Codex or Claude Code, you already have the interface.
 
-## 👤 Who this fits
+### Who this fits
 
 - People with a growing archive of voice memos, journals, or self-observation material.
 - People doing online therapy who keep recordings or notes.
@@ -34,15 +36,21 @@ Therapy Wiki fixes those three with a deliberately small workflow: a file tree p
 - People who want their personal archive to become a maintained knowledge base.
 - People who are keen on digitalizing themselves / becoming Uploaded Intelligence.
 
-## 🧩 What it does
+## 🧠 Core features
 
-### Compile recordings into a long-term wiki
+### 🔄 Built-in workflow
 
-Drop audio into the repo, and the pipeline transcribes, diarizes, and reviews it, then lands the result as a session page in a persistent Markdown wiki that cross-links with your existing themes and patterns. Manual corrections (transcript edits, speaker labels) are first-class; a `refresh` step recompiles just the affected session. Five operational stages — **ingest → review → rebuild → report → discuss** — are all driven by a single `./therapy` CLI plus a small set of Codex / Claude skills.
+1. **Ingest** — copy audio into `raw/`, transcribe, diarize, generate review artifacts.
+2. **Review** — fix transcript and speaker map by hand where it matters.
+3. **Rebuild** — recompile the affected session's wiki page.
+4. **Report** — generate a single-session review or a cross-session longitudinal report.
+5. **Discuss** — ask a persona-scoped question; optionally file the insight back into the wiki.
 
-### Read the same material through different lenses
+All five steps are triggered from a single CLI (`./therapy`) plus a handful of Codex skills.
 
-Each persona is backed by its own method card and skill, so the reading actually changes — structure, questions, attention, and output frame all shift.
+### 🎭 Personas
+
+Different lenses on the same material. Each persona is backed by its own method card and skill, so the reading actually changes — structure, questions, attention, and output frame all shift.
 
 | Persona          | Reads material through…                                                |
 | ---------------- | ---------------------------------------------------------------------- |
@@ -54,26 +62,29 @@ Each persona is backed by its own method card and skill, so the reading actually
 
 Need a new persona? Just ask the agent to add one.
 
-### Produce reports and discussions
+### 📄 Reports
 
 - **Single-session review** — one session, one structured pass.
 - **Longitudinal report** — synthesis across every session in the wiki.
-- **Persona-scoped discussion** — ask a focused question through one lens, optionally `--file-back` the durable conclusions into persona-specific wiki notes.
 
-Reports are written in Chinese by default (tell your agent to change this), stay source-grounded, and cite `session_id + timestamp` for every claim.
+Reports are written in Chinese by default (tell your agent to change this behavior if needed), stay source-grounded, and cite `session_id + timestamp` for every claim.
 
-## 🚀 Getting started
+## 🚀 Usage
 
-### Install
+### Quick start
+
+#### For humans
 
 1. `git clone` this repo.
 2. Open it in Claude Code or Codex.
 3. Ask the agent to set up the environment, install the skills, and run the first ingest.
 
-The agent can read the manual steps below.
+That's it. The agent knows how to read the section below.
+
+#### For the agent
 
 <details>
-<summary>Manual install steps</summary>
+<summary>Click to expand: setup, skills install, usage</summary>
 
 ```bash
 # 1. System prerequisites
@@ -90,13 +101,15 @@ python3 scripts/install_skills.py
 ./therapy ingest ~/path/to/new-session.m4a
 ```
 
-For fresh-machine STT + diarization setup (`mlx-whisper`, `pyannote`, etc.), see [schema/setup.md](./schema/setup.md); full CLI behavior lives in [schema/cli.md](./schema/cli.md); wiki maintenance rules in [schema/wiki-maintainer.md](./schema/wiki-maintainer.md).
+For fresh-machine STT + diarization setup (mlx-whisper, pyannote, etc.) see [`schema/setup.md`](./schema/setup.md); full CLI behavior lives in [`schema/cli.md`](./schema/cli.md); wiki maintenance rules in [`schema/wiki-maintainer.md`](./schema/wiki-maintainer.md).
 
 </details>
 
-### Typical usage
+### 🛠️ Typical usage
 
-Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code inside the repo and tell the agent three things in plain language: **scope** (which material) × **persona** (which lens) × **task** (what to do). The agent picks the right skill and CLI call itself.
+#### For humans
+
+Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code inside the repo and just tell the agent three things in plain language: **scope** (which material) × **persona** (which lens) × **task** (what to do). The agent picks the right skill and CLI call itself.
 
 **Scope options**
 
@@ -104,7 +117,13 @@ Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code 
 - `session <id>` — one specific session (e.g. `session 2025-04-20`)
 - `all` — every session currently in the wiki
 
-**Persona options** — same as the table above: `therapist` / `supervisor` / `psychologist` / `intp-lens` / `close-friend`.
+**Persona options**
+
+- `therapist` — process, affect, defense, relational stance, next-step exploration
+- `supervisor` — intervention choices, pacing, alliance, missed opportunities
+- `psychologist` — formulation, mechanism, competing explanations, longitudinal patterns
+- `intp-lens` — structure, loops, contradictions, hidden rules
+- `close-friend` — direct reality check (kept **separate** from formal formulation)
 
 **Task options**
 
@@ -126,8 +145,10 @@ Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code 
 
 > "I just finished editing `transcript.edited.md` for session `2025-04-20`. Refresh that session."
 
+#### For the agent (CLI reference)
+
 <details>
-<summary>Equivalent <code>./therapy</code> commands (for the agent)</summary>
+<summary>Click to expand: equivalent <code>./therapy</code> commands</summary>
 
 **After a new session**
 
@@ -159,11 +180,11 @@ Day-to-day, you don't need to memorize any CLI flags. Open Codex or Claude Code 
 
 </details>
 
-## 🔬 Under the hood
+## 🔬 Technical details
 
-### Three-layer architecture
+### 🧱 Architecture
 
-Following the [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f#file-llm-wiki-md) principle:
+Three-layer structure, following the [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f#file-llm-wiki-md) principle:
 
 | Layer          | Role                                                                          | Mutability             |
 | -------------- | ----------------------------------------------------------------------------- | ---------------------- |
@@ -173,9 +194,9 @@ Following the [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c
 
 Everything is plain Markdown and JSON — easy for both humans and AI to read, edit, diff, and grep.
 
-### The ingest pipeline
+### 🔬 Under the hood: the ingest pipeline
 
-The `ingest` step is a deterministic, local-first pipeline built on open-source models. No cloud STT, no cloud LLM, no per-call API spend.
+Step 1 (`Ingest`) is a deterministic, local-first pipeline built on open-source models. No cloud STT, no cloud LLM, no per-call API spend.
 
 ```text
 audio
@@ -198,11 +219,11 @@ Stages and the open-source models they use:
 | Session summary + review notes | `summary.json`, `review.md` | pure-Python theme / pattern extractor — see [src/therapy_wiki/summarize.py](src/therapy_wiki/summarize.py) | — |
 | Wiki compilation | `wiki/sessions/<id>.md`, `wiki/index.md`, `wiki/log.md` | [src/therapy_wiki/wiki.py](src/therapy_wiki/wiki.py) | — |
 
-\*On macOS Intel / Linux, `mlx-whisper` isn't available; see [schema/setup.md](./schema/setup.md) for STT fallbacks.
+\*On macOS Intel / Linux, `mlx-whisper` isn't available; see [schema/setup.md](schema/setup.md) for STT fallbacks.
 
 The only place where a frontier LLM does heavy lifting is **Report** and **Discuss**, and even there it only ever reads the already-compiled wiki — not the raw audio. Everything above is local, reproducible, and runs offline once model weights are cached.
 
-### Repo layout
+### 📦 What's in the repo
 
 ```text
 src/therapy_wiki/      Python CLI and workflow logic
